@@ -3,29 +3,6 @@ import * as store from "./store";
 import Navigo from "navigo";
 import { capitalize } from "lodash";
 import axios from "axios";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-
-//  include Mongoose in your project
-const mongoose = require('mongoose')
-
-// hook it up to MongoDB
-mongoose.connect(process.env.MONGODB)
-
-// map the constant db to mongoose.connection so that we can refer to it later on in our code without having to type it all out
-const db = mongoose.connection
-
-// handles events that Mongoose sends back to indicate the status of our connection to the database
-db.on("error", console.error.bind(console, "Connection Error:"));
-db.once(
-  "open",
-  console.log.bind(console, "Successfully opened connection to Mongo!")
-);
-
-// include dotenv in project
-const dotenv = require("dotenv");
-// initiate dotenv
-dotenv.config();
 
 // assign the port for the BE
 const PORT = process.env.API_PORT || 4040; // we use || to provide a default value
@@ -52,7 +29,44 @@ function afterRender(state) {
   document.querySelector(".fa-bars").addEventListener("click", () => {
     document.querySelector("nav > ul").classList.toggle("hidden--mobile");
   });
-}
+  if (st.view === "Order") {
+    document.querySelector("form").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const inputList = event.target.elements;
+      console.log("Input Element List", inputList);
+
+      const toppings = [];
+      // Iterate over the toppings input group elements
+      for (let input of inputList.toppings) {
+        // If the value of the checked attribute is true then add the value to the toppings array
+        if (input.checked) {
+          toppings.push(input.value);
+        }
+      }
+
+      const requestData = {
+        customer: inputList.customer.value,
+        crust: inputList.crust.value,
+        cheese: inputList.cheese.value,
+        sauce: inputList.sauce.value,
+        toppings: toppings
+      };
+      console.log("request Body", requestData);
+
+      axios
+        .post(`${process.env.PIZZA_PLACE_API_URL}`, requestData)
+        .then(response => {
+          // Push the new pizza onto the Pizza state pizzas attribute, so it can be displayed in the pizza list
+          store.Pizza.pizzas.push(response.data);
+          router.navigate("/Pizza");
+        })
+        .catch(error => {
+          console.log("It puked", error);
+        });
+    });
+  };
+};
 
 // use Navigo to handle routing based on selected view/path
 router.hooks({
