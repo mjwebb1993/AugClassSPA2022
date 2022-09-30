@@ -29,7 +29,7 @@ function afterRender(state) {
   document.querySelector(".fa-bars").addEventListener("click", () => {
     document.querySelector("nav > ul").classList.toggle("hidden--mobile");
   });
-  if (st.view === "Order") {
+  if (state.view === "Order") {
     document.querySelector("form").addEventListener("submit", event => {
       event.preventDefault();
 
@@ -52,7 +52,7 @@ function afterRender(state) {
         sauce: inputList.sauce.value,
         toppings: toppings
       };
-      console.log("request Body", requestData);
+      console.log("request Body", requestData, `${process.env.PIZZA_PLACE_API_URL}`);
 
       axios
         .post(`${process.env.PIZZA_PLACE_API_URL}`, requestData)
