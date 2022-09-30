@@ -9,6 +9,23 @@ const pizzas = require("./routers/pizzas");
 // 'Import' the Express module instead of http
 
 dotenv.config();
+
+// CORS Middleware
+const cors = (req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type, Accept,Authorization,Origin"
+  );
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+};
+
+
 // hook it up to MongoDB
 mongoose.connect(process.env.MONGODB)
 
@@ -31,23 +48,8 @@ const logging = (request, response, next) => {
   next();
 };
 
-// CORS Middleware
-const cors = (req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type, Accept,Authorization,Origin"
-  );
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-};
-
-app.use(logging);
 app.use(cors);
+app.use(logging);
 app.use(express.json());
 app.use("/pizzas", pizzas);
 
