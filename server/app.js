@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const express = require("express");
 // import the new Pizzas router file
 const pizzas = require("./routers/pizzas");
-// 'Import' the Express module instead of http
 
 dotenv.config();
 
@@ -39,7 +38,6 @@ db.once(
   console.log.bind(console, "Successfully opened connection to Mongo!")
 );
 
-
 // Initialize the Express application
 const app = express();
 
@@ -48,8 +46,9 @@ const logging = (request, response, next) => {
   next();
 };
 
-app.use(cors);
+
 app.use(logging);
+app.use(cors);
 app.use(express.json());
 app.use("/pizzas", pizzas);
 
