@@ -46,9 +46,8 @@ const logging = (request, response, next) => {
   next();
 };
 
-
-app.use(logging);
 app.use(cors);
+app.use(logging);
 app.use(express.json());
 app.use("/pizzas", pizzas);
 
