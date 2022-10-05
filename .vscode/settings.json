@@ -21,5 +21,5 @@
   "workbench.enableExperiments": false,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.view.alwaysShowHeaderActions": true,
-  "editor.fontFamily": "'Jetbrains Mono', 'Fira Code'"
+  "editor.fontFamily": "'Jetbrains Mono', Consolas, 'Courier New', monospace"
 }
