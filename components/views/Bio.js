@@ -1,6 +1,6 @@
 import html from "html-literal";
 
-export default (state) => html`
+export default state => html`
   <section id="bio">
     <h2>Vivamus ac justo eu nisi</h2>
     <img

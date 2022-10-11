@@ -23,6 +23,6 @@ const pizzaSchema = new mongoose.Schema({
   toppings: [String]
 });
 
-const Pizza = mongoose.model('Pizza', pizzaSchema);
+const Pizza = mongoose.model("Pizza", pizzaSchema);
 
 module.exports = Pizza;
