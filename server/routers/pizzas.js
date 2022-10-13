@@ -20,6 +20,15 @@ router.get("/", (request, response) => {
   });
 });
 
+// Using "filterFullName" as the route just to make this path unique
+// You could easily use another string for the route to define this path
+router.get("/filterFullName/:fullName", (request, response) => {
+  Pizza.find({ fullName: request.params.fullName }, (error, record) => {
+    if (error) return response.status(500).json(error);
+    return response.json(record);
+  });
+});
+
 // Get a single record by ID using a query parameter
 router.get("/:id", (request, response) => {
   Pizza.findById(request.params.id, (error, record) => {
