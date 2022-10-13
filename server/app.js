@@ -44,20 +44,18 @@ app.use(logging);
 
 // Handle the request with HTTP GET method from http://localhost:4040/status
 app.get("/status", (request, response) => {
-   // Create the headers for response by default 200
-   // Create the response body
-   // End and return the response
+  // Create the headers for response by default 200
+  // Create the response body
+  // End and return the response
   response.send(JSON.stringify({ message: "Service healthy" }));
 });
-
 
 app.get("/echo/:input", (request, response) => {
   const message = request.params.input;
   response.status(418).json({ echo: message });
 });
 
-app.use('/pizzas', pizzas);
-
+app.use("/pizzas", pizzas);
 
 const PORT = process.env.PORT || 4040; // we use || to provide a default value
 

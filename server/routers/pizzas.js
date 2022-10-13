@@ -2,7 +2,6 @@ const { Router } = require("express");
 const Pizza = require("../models/Pizza");
 const router = Router();
 
-
 // Create record in MongoDB Atlas using Mongoose.js ORM
 router.post("/", (request, response) => {
   const newPizza = new Pizza(request.body);
