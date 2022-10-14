@@ -115,6 +115,25 @@ router.hooks({
             done();
           });
         break;
+      case "Direction":
+        axios
+          .get(
+            "http://www.mapquestapi.com/directions/v2/route?key=RcTyUcffSJF36huCYAgfPvVfpTZ04Bm2&from=1 Government Dr,St. Louis,Mo&to=700+Clark+Ave,+St. Louis,+MO"
+          )
+          .then(response => {
+            console.log(response.data.route.legs[0].origNarrative);
+            store.Direction.directions = response.data;
+            store.Direction.directions.first =
+              response.data.route.legs[0].origNarrative;
+            store.Direction.directions.maneuvers =
+              response.data.route.legs[0].maneuvers;
+            done();
+          })
+          .catch(error => {
+            console.log("It puked", error);
+            done();
+          });
+        break;
       default:
         done();
     }
