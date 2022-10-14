@@ -66,7 +66,9 @@ footer {
 #pizzas td,th {
   width: 25%;
 }
-
+/* .directions {
+  display: none !important;
+} */
 @media (max-width: 549px){
   .hidden--mobile {
     display: none !important;
