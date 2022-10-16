@@ -54,14 +54,12 @@ function afterRender(state) {
 
       await axios
         .get(
-          `http://www.mapquestapi.com/directions/v2/route?key=RcTyUcffSJF36huCYAgfPvVfpTZ04Bm2&from=${from.street},${from.city},${from.state}&to=${to.street},+${to.city},+${to.state}`
+          `http://www.mapquestapi.com/directions/v2/route?key=${process.env.MAPQUEST_API_KEY}&from=${from.street},${from.city},${from.state}&to=${to.street},+${to.city},+${to.state}`
         )
         .then(response => {
           console.log(response.data);
           console.log(response.data.route.legs[0].origNarrative);
           store.Direction.directions = response.data;
-          store.Direction.directions.first =
-            response.data.route.legs[0].origNarrative;
           store.Direction.directions.maneuvers =
             response.data.route.legs[0].maneuvers;
           router.navigate("/Direction");
@@ -155,8 +153,6 @@ router.hooks({
             done();
           });
         break;
-      // case "Direction":
-      //   store.Direction..dimaneuvers = [];
       default:
         done();
     }
