@@ -28,6 +28,44 @@ function afterRender(state) {
     // DO DOM stuff here
     console.log("Hello");
   }
+  if (state.view === "Direction") {
+    const formEntry = document.querySelector("form");
+    const directionList = document.querySelector(".directions");
+
+    formEntry.addEventListener("submit", async event => {
+      event.preventDefault();
+      // directionList.classList.toggle("directions");
+      const inputList = event.target.elements;
+      console.log("Input Element List", inputList);
+
+      const from = {
+        street: inputList.fromStreet.value,
+        city: inputList.fromCity.value,
+        state: inputList.fromStreet.value
+      };
+      const to = {
+        street: inputList.toStreet.value,
+        city: inputList.toCity.value,
+        state: inputList.toStreet.value
+      };
+
+      await axios
+        .get(
+          `http://www.mapquestapi.com/directions/v2/route?key=${process.env.MAPQUEST_API_KEY}&from=${from.street},${from.city},${from.state}&to=${to.street},+${to.city},+${to.state}`
+        )
+        .then(response => {
+          console.log(response.data);
+          console.log(response.data.route.legs[0].origNarrative);
+          store.Direction.directions = response.data;
+          store.Direction.directions.maneuvers =
+            response.data.route.legs[0].maneuvers;
+          router.navigate("/Direction");
+        })
+        .catch(error => {
+          console.log("It puked", error);
+        });
+    });
+  }
   if (state.view === "Order") {
     document.querySelector("form").addEventListener("submit", event => {
       event.preventDefault();
@@ -115,6 +153,14 @@ router.hooks({
       default:
         done();
     }
+  },
+  already: params => {
+    const view =
+      params && params.data && params.data.view
+        ? capitalize(params.data.view)
+        : "Home";
+
+    render(store[view]);
   }
 });
 
