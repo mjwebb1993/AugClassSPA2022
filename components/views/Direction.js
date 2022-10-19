@@ -74,7 +74,7 @@ export default st => html`
 
 function checkDirection(maneuvers) {
   if (maneuvers) {
-    return maneuvers.map(leg => `<li>${leg.narrative}</li>`);
+    return maneuvers.map(leg => `<li>${leg.narrative}<br/><img src="${leg.mapUrl}"></li>`);
   } else {
     return `Please Submit Addresses Above!`;
   }
