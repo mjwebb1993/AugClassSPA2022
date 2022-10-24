@@ -19,15 +19,34 @@ function render(state = store.Home) {
   router.updatePageLinks();
 }
 
+
+function changeImg() {
+  store.Slides.currentSlide = store.Slides.slides[store.Slides.index];
+
+  const imgSrc = document.getElementById("slideImage");
+  imgSrc.src = store.Slides.currentSlide;
+
+  if (store.Slides.index < store.Slides.slides.length - 1) {
+    store.Slides.index++;
+  } else {
+    store.Slides.index = 0;
+  }
+
+  setTimeout(changeImg, store.Slides.transition);
+}
+
+
 function afterRender(state) {
   // add menu toggle to bars icon in nav bar
   document.querySelector(".fa-bars").addEventListener("click", () => {
     document.querySelector("nav > ul").classList.toggle("hidden--mobile");
   });
+
   if (state.view === "Home") {
     // DO DOM stuff here
     console.log("Hello");
   }
+
   if (state.view === "Direction") {
     const formEntry = document.querySelector("form");
     const directionList = document.querySelector(".directions");
@@ -66,6 +85,7 @@ function afterRender(state) {
         });
     });
   }
+
   if (state.view === "Order") {
     document.querySelector("form").addEventListener("submit", event => {
       event.preventDefault();
@@ -102,6 +122,10 @@ function afterRender(state) {
           console.log("It puked", error);
         });
     });
+  }
+
+  if (state.view === "Slides") {
+    changeImg();
   }
 }
 
