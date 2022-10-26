@@ -11,7 +11,7 @@ function render(state = store.Home) {
       ${Header(state)}
       ${Nav(store.Links)}
       ${Main(state)}
-      ${Footer()}
+      ${Footer(store.Footer)}
     `;
 
   afterRender(state);
@@ -135,6 +135,15 @@ router.hooks({
       params && params.data && params.data.view
         ? capitalize(params.data.view)
         : "Home";
+
+
+    axios.get(process.env.API_STATUS_API_URL)
+      .then(response => {
+        store.Footer.apiStatus = response.data;
+      })
+      .catch(error => {
+        console.log("It puked", error);
+      });
 
     // Add a switch case statement to handle multiple routes
     switch (view) {

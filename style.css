@@ -43,6 +43,11 @@ footer {
   margin: 1rem 1rem;
 }
 
+.api-status {
+  text-align: right;
+  float: right;
+}
+
 #bio {
   margin: 1rem;
 }
